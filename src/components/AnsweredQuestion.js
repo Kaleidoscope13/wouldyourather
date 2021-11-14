@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import {useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,9 +7,14 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import PageNotFound from './PageNotFound';
 import Avatar from './Avatar';
 
-class AnsweredQuestion extends Component {
-	render() {
-		const { question, author, authedUser } = this.props;
+function AnsweredQuestion(props) {
+	const questions = useSelector((state)=> state.questions)
+	const users = useSelector((state)=> state.users)
+	const authedUser = useSelector((state)=> state.authedUser)
+
+	const questionx = questions[props.id];
+	const question = questionx ? questionx : null;
+	const author = question ? users[question.author] : null;
 
 		if (question === null) {
 			return <PageNotFound />;
@@ -73,17 +78,6 @@ class AnsweredQuestion extends Component {
 				</Col>
 			</Row>
 		);
-	}
 }
 
-function mapStateToProps({ questions, users, authedUser }, { id }) {
-	const question = questions[id];
-
-	return {
-		question: question ? question : null,
-		author: question ? users[question.author] : null,
-		authedUser
-	};
-}
-
-export default connect(mapStateToProps)(AnsweredQuestion);
+export default AnsweredQuestion;

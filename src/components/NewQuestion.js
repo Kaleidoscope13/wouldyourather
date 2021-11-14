@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -8,28 +8,30 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { handleAddQuestion } from '../actions/questions';
 
-class NewQuestion extends Component {
-	state = {
+function NewQuestion() {
+	const dispatch = useDispatch()
+	const [state,setState] = useState({
 		optionOne: '',
 		optionTwo: '',
 		toHome: false
-	};
+	})
 
-	handleInputChange = (e) => {
+	const handleInputChange = (e) => {
 		const name = e.target.name;
 		const value = e.target.value;
-		this.setState({
+		setState({
+			...state,
 			[name]: value
 		});
 	};
 
-	handleSubmit = (e) => {
-		const { optionOne, optionTwo } = this.state;
-		const { dispatch } = this.props;
+	const handleSubmit = (e) => {
+		const { optionOne, optionTwo } = state;
+		// const { dispatch } = this.props;
 
 		e.preventDefault();
 
-		this.setState(
+		setState(
 			{
 				optionOne: '',
 				optionTwo: '',
@@ -39,13 +41,13 @@ class NewQuestion extends Component {
 		);
 	};
 
-	render() {
-		const { optionOne, optionTwo, toHome } = this.state;
+	
+		const { optionOne, optionTwo, toHome } = state;
 
 		if (toHome === true) return <Redirect to="/" />;
 
 		return (
-			<Fragment>
+			<>
 				<h2 className="text-center my-3">
 					<small>Would You Rather...</small>
 				</h2>
@@ -53,14 +55,14 @@ class NewQuestion extends Component {
 					<Col xs={12} md={6}>
 						<Card bg="light" className="m-3 text-center">
 							<Card.Body>
-								<Form onSubmit={this.handleSubmit}>
+								<Form onSubmit={handleSubmit}>
 									<Form.Group controlId="optionOne">
 										<Form.Label>Choice One</Form.Label>
 										<Form.Control
 											type="text"
 											name="optionOne"
 											value={optionOne}
-											onChange={this.handleInputChange}
+											onChange={handleInputChange}
 										/>
 									</Form.Group>
 									<h3>
@@ -72,7 +74,7 @@ class NewQuestion extends Component {
 											type="text"
 											name="optionTwo"
 											value={optionTwo}
-											onChange={this.handleInputChange}
+											onChange={handleInputChange}
 										/>
 									</Form.Group>
 									<Button
@@ -87,9 +89,8 @@ class NewQuestion extends Component {
 						</Card>
 					</Col>
 				</Row>
-			</Fragment>
+			</>
 		);
 	}
-}
 
-export default connect()(NewQuestion);
+export default NewQuestion;

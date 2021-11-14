@@ -9,8 +9,7 @@ import QuestionPage from './QuestionPage';
 import ScoreBoard from './ScoreBoard';
 import PageNotFound from './PageNotFound';
 
-class PrivateApp extends Component {
-	render() {
+function PrivateApp() {
 		return (
 			<Router>
 				<Container>
@@ -28,6 +27,5 @@ class PrivateApp extends Component {
 			</Router>
 		);
 	}
-}
 
 export default PrivateApp;

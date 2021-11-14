@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import {  useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
@@ -7,10 +7,14 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Avatar from './Avatar';
 
-class BriefQuestion extends Component {
-	render() {
-		const { question, author } = this.props;
-		const { optionOne, timestamp, id } = question;
+function BriefQuestion(props) {
+	const questions = useSelector((state)=> state.questions)
+	const users = useSelector((state)=> state.users)
+	const question = questions[props.id];
+	const questionx = question ? question : null;
+	const author = question ? users[question.author] : null;
+
+		const { optionOne, timestamp, id } = questionx;
 		const { name, avatarURL } = author;
 
 		return (
@@ -33,15 +37,5 @@ class BriefQuestion extends Component {
 			</Row>
 		);
 	}
-}
 
-function mapStateToProps({ questions, users }, { id }) {
-	const question = questions[id];
-
-	return {
-		question: question ? question : null,
-		author: question ? users[question.author] : null
-	};
-}
-
-export default connect(mapStateToProps)(BriefQuestion);
+export default BriefQuestion;

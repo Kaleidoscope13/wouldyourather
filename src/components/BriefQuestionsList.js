@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import BriefQuestion from './BriefQuestion';
 
 function BriefQuestionsList(props) {
 	const { idsList, emptyListNote } = props;
 
 	return (
-		<Fragment>
+		<>
 			<h2 className="text-center my-3">
 				<small>Would You Rather...</small>
 			</h2>
@@ -14,7 +14,7 @@ function BriefQuestionsList(props) {
 			) : (
 				<p className="text-center">{emptyListNote}</p>
 			)}
-		</Fragment>
+		</>
 	);
 }
 

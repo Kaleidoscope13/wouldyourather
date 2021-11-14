@@ -1,24 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import UserStats from './UserStats';
 
-class ScoreBoard extends Component {
-	render() {
-		return (
-			<Fragment>
-				<h2 className="text-center my-3">
-					<small>ScoreBoard</small>
-				</h2>
-				{this.props.userIDs.map((id) => (
-					<UserStats key={id} id={id} />
-				))}
-			</Fragment>
-		);
-	}
-}
-
-function mapStateToProps({ users }) {
-	//sort UserIDs by the score for each user, desc
+function ScoreBoard() {
+	const users = useSelector((state) => state.users)
 	const sortedUserIDs = Object.keys(users).sort((idA, idB) => {
 		const scoreA =
 			Object.keys(users[idA].answers).length + users[idA].questions.length;
@@ -27,10 +12,22 @@ function mapStateToProps({ users }) {
 
 		return scoreB - scoreA;
 	});
+	const userIDs = sortedUserIDs
 
-	return {
-		userIDs: sortedUserIDs
-	};
+
+	return (
+		<>
+			<h2 className="text-center my-3">
+				<small>ScoreBoard</small>
+			</h2>
+			{userIDs.map((id) => (
+				<UserStats key={id} id={id} />
+			))}
+		</>
+	);
 }
 
-export default connect(mapStateToProps)(ScoreBoard);
+
+
+export default ScoreBoard;
+
