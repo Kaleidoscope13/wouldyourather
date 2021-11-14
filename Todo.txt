@@ -1,3 +1,0 @@
-Swap avatar(downloadin a new avata will be cool)
-Rename Action both in the action file and reducer✔
-Convert class to functionAL COMPONENT ✔
